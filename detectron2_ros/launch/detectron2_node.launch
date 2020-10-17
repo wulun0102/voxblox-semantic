@@ -1,0 +1,20 @@
+<launch>
+  <arg name="sensor_name" default="primesense" />
+  <arg name="visualize" default="true" />   <!--false-->
+  <arg name="input" default="/camera/rgb/image_raw" />
+  <arg name="detection_threshold" default="0.5" />
+  <arg name="model" default="$(find detectron2_ros)/detectron2/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml" />
+  <arg name="visualization" default="true" />
+  <arg name="publish_rate" default="100" />
+  <arg name="bag_file" default="/home/zss/EXTEND/dataset/asl_office_floor.bag"/>
+
+  <node pkg="detectron2_ros" type="detectron2_ros.py" name="detectron2_ros" output="screen" >
+    <param name="input" value="$(arg input)" />
+    <param name="detection_threshold" value="$(arg detection_threshold)" />
+    <param name="model" value="$(arg model)" />
+    <param name="visualization" value="$(arg visualization)" />
+    <param name="publish_rate" value="$(arg publish_rate)" />
+    <rosparam command="load" file="$(find depth_segmentation)/cfg/$(arg sensor_name)_topics.yaml"/>
+  </node>
+
+</launch>

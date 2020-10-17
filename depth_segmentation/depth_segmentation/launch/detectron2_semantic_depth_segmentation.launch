@@ -1,0 +1,14 @@
+<launch>
+  <arg name="sensor_name" default="primesense" />
+  <arg name="visualize" default="true" /><!--false-->
+  <arg name="result_sub_topic" default="/detectron2_ros/result"/>
+
+  <node name="depth_segmentation_node" pkg="depth_segmentation" type="depth_segmentation_node" output="screen">
+    <rosparam command="load" file="$(find depth_segmentation)/cfg/$(arg sensor_name)_topics.yaml"/>
+    <rosparam command="load" file="$(find depth_segmentation)/cfg/$(arg sensor_name)_config.yaml"/>
+    <param name="semantic_instance_segmentation/enable" value="true"/> <!--启用语义实例分割-->
+    <param name="label_display" value="$(arg visualize)"/>
+    <param name="semantic_instance_segmentation_sub_topic" value="$(arg result_sub_topic)"/>
+    <param name="visualize_segmented_scene" value="true"/><!--在rviz上可视化所有segments-->>
+  </node>
+</launch>
